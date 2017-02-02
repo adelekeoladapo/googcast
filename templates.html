@@ -1,0 +1,153 @@
+<!-- Tab Layout -->
+
+<div class="jd-tab-container">
+    <div class="jd-tab-title-block">
+        <ul>
+            <li class="active" data-href="tab_1">
+                <a href="">Basic Information</a>
+            </li>
+            <li data-href="tab_2">
+                <a href="">Update Password</a>
+            </li>
+        </ul>
+    </div>
+    <div class="jd-tab-content-block">
+        <div class="jd-tab-pane active" id="tab_1">
+            Basic Settings
+        </div>
+        <div class="jd-tab-pane" id="tab_2">
+            Update Password
+        </div>
+    </div>
+</div>
+
+<!-- End Tab Layout -->
+
+<!-- HTab Layout -->
+<div class="jd-h-tab-container">
+    <div class="jd-h-tab-content-block">
+        <div class="jd-h-tab-pane active" id="tab_1">
+            <div class="">
+                <h1 class="h4 m-b-md m-t-none font-normal jd-inner-page-title">
+                    Tab One
+                </h1>
+            </div>
+            Tab One
+        </div>
+        <div class="jd-h-tab-pane" id="tab_2">
+            <div class="">
+                <h1 class="h4 m-b-md m-t-none font-normal jd-inner-page-title">
+                    Tab Two
+                </h1>
+            </div>
+            Tab Two
+        </div>
+        <div class="jd-h-tab-pane" id="tab_3">
+            <div class="">
+                <h1 class="h4 m-b-md m-t-none font-normal jd-inner-page-title">
+                    Tab Three
+                </h1>
+            </div>
+            Tab Three
+        </div>
+    </div>
+    <div class="jd-h-tab-title-block">
+        <ul>
+            <li class="active" data-href="tab_1">
+                <a href="">Tab 1</a>
+            </li>
+            <li data-href="tab_2">
+                <a href="">Tab 2</a>
+            </li>
+            <li data-href="tab_3">
+                <a href="">Tab 3</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- End HTab Layout -->
+
+
+<!-- Card Layout -->
+<div class="jd-cards-container">
+    <div class="jd-card active" id="card-1">Card 1</div>
+    <div class="jd-card" id="card-2">Card 2</div>
+    <div class="jd-card" id="card-3">Card 3</div>
+</div>
+showCard_(container_id, card_id) OR showCard(card_id)
+<!-- End Card Layout -->
+
+
+<!-- Modal -->
+<div class="jd-modal">
+    <h1 class="h4 m-b-md m-t-none font-normal jd-modal-title">
+        Title
+    </h1>
+    <div class="jd-modal-body">
+        The Body
+    </div>
+    <div class="jd-modal-footer">
+        <button class="btn jd-modal-btn">Cancel</button>
+        <button class="btn jd-modal-btn btn-ok">OK</button>
+    </div>
+</div>
+<!-- End Modal -->
+
+
+
+<!-- jd slide-cards -->
+<div class="jd-slide-cards" id="test-id">
+    <div class="card" id="card-1" style="display: block">
+        #card_one
+    </div>
+    <div class="card" id="card-2">
+        #card_two
+    </div>
+    <div class="card" id="card-3">
+        #card_three
+    </div>
+</div>
+<button onclick="showSlideCard('test-id', 'card-3')">Show 3</button>
+<button onclick="showSlideCard('test-id', 'card-1')">Show 1</button>
+<!--/ jd slide-cards -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+add class weekdays periods subjects
+1. class_id
+2. weekday_id, class_period_id **multiple
+3. class_basic_subject_id
+
+data
+[
+    {
+        "class_id" : 1,
+        "class_basic_subject_id" : 6,
+        "period" : [
+                        {
+                            "weekday_id" : 1,
+                            "class_period_id" : 4
+                        },
+                        {
+                            "weekday_id" : 2,
+                            "class_period_id" : 1
+                        }
+
+                    ]
+    }
+]

@@ -1,0 +1,241 @@
+*Remember to create default privileges (student, parent) at school creation
+
+JEDUPA
+1. Sessions & Quota
+2. Score Group
+3. Subject
+4. Student Category
+5. Additional Details
+6. HR Settings - Department
+7. HR Settings - Categories&Positions
+8. HR Settings - Grade Levels
+10. Student Module
+11. Parent Module
+12. Employee Module
+13. Timetable Module
+14. Exam&Result Module
+15. Event/Calendar Module
+16. Library Module
+17. Mail&SMS Module
+18. Privileges
+19. Users Login
+20. Website
+21. Testing
+22. Documentation
+
+Future Features
+1. Fees Payment
+2. Finance(Income&Expenses)
+3. Inventory(Stock keeping)
+4. Payroll System
+
+
+ONGOING TASKS
+1. Class Timetables
+Unresolved Issues
+- break periods
+- deleting subjects
+- deleting weekday timing
+- deleting period  
+- reset timetable
+
+2. Exam Module
+   - Grading Level
+   - Class Designation
+   - Class Exams
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VIEWS
+
+CREATE VIEW vw_class AS SELECT tb_class.class_id AS class_id, tb_class.school_id AS school_id, tb_class.student_department_id AS student_department_id, tb_class.name AS name, tb_class.code AS code, tb_class_level.class_level_id AS level_id, tb_class_level.name AS level_name, tb_class.date_created AS date_created, tb_student_department.name AS department_name, tb_student_department.code AS department_code, tb_class_type.class_type_id AS class_type_id, tb_class_type.name AS class_type FROM tb_class INNER JOIN tb_student_department ON tb_class.student_department_id = tb_student_department.student_department_id JOIN tb_class_level ON tb_class_level.class_level_id = tb_class.class_level_id JOIN tb_class_type ON tb_class_type.class_type_id = tb_class.class_type_id
+
+
+
+CREATE VIEW vw_score_group_structure AS SELECT tb_score_group_structure.score_group_structure_id AS score_group_structure_id, tb_score_group_structure.school_id AS school_id, tb_score_group_structure.name AS name, tb_score_group_structure.date_created AS date_created, tb_score_group_structure.date_modified AS date_modified, tb_score_group_structure.description AS description, tb_score_group.score_group_id AS score_group_id, tb_score_group.name AS score_group FROM tb_score_group_structure JOIN tb_score_group WHERE tb_score_group_structure.score_group_id = tb_score_group.score_group_id
+
+
+
+CREATE VIEW vw_employee_position AS SELECT tb_employee_position.employee_position_id AS employee_position_id, tb_employee_position.school_id AS school_id, tb_employee_position.name AS name, tb_employee_position.description AS description, tb_employee_position.date_created AS date_created, tb_employee_position.date_modified as date_modified, tb_employee_position.employee_category_id AS employee_category_id, tb_employee_category.name AS category, tb_employee_category.code AS category_code FROM tb_employee_position JOIN tb_employee_category ON tb_employee_position.employee_category_id = tb_employee_category.employee_category_id
+
+
+CREATE VIEW vw_parent AS SELECT tb_user.user_id AS user_id, tb_user.firstname AS fullname, tb_user.username AS username, tb_user.password AS password, tb_user.is_active AS is_active,
+tb_user.school_id as school_id, tb_user.gender AS gender, tb_user.dob AS dob, tb_user.marital_status AS marital_status,
+tb_user.state_id AS state_id, tb_user.address AS address, tb_user.city AS city, tb_user.phone1 AS phone1, tb_user.phone2 AS phone2,
+tb_user.email AS email, tb_user.photo AS photo, tb_user.privilege_id AS privilege_id, tb_parent.parent_id AS parent_id
+FROM tb_user JOIN tb_parent ON tb_user.user_id = tb_parent.user_id
+
+
+
+CREATE VIEW vw_student AS SELECT tb_user.user_id AS user_id, tb_user.firstname AS firstname, tb_user.lastname AS lastname,
+tb_user.othernames AS othernames, tb_user.username AS username, tb_user.password AS password, tb_user.is_active AS is_active,
+tb_user.school_id as school_id, tb_user.gender AS gender, tb_user.dob AS dob, tb_user.marital_status AS marital_status,
+tb_user.state_id AS state_id, tb_user.address AS address, tb_user.city AS city, tb_user.phone1 AS phone1, tb_user.phone2 AS phone2,
+tb_user.email AS email, tb_user.photo AS photo, tb_user.privilege_id AS privilege_id, tb_student.student_id AS student_id,
+tb_student.student_department_id AS department_id, tb_student.registration_number AS registration_number, tb_student.admission_date AS admission_date,
+tb_student.date_created AS date_created, tb_student.batch_id AS batch_id, tb_student.student_category_id AS category_id,
+tb_student.parent_id AS parent_id, tb_student.parent_relationship AS parent_relationship, tb_student.class_type_id AS class_type_id,
+tb_student.class_level_id AS class_level_id, tb_student.class_id AS class_id, vw_class.name AS class, vw_class.code AS class_code,
+vw_class.level_name AS level, vw_class.department_name AS department, vw_class.department_code AS department_code, vw_class.class_type AS class_type,
+tb_student_category.name AS category, tb_student_category.code AS category_code, tb_state.name AS state, vw_parent.fullname AS parent_name, vw_parent.username AS parent_username,
+vw_parent.address AS parent_address, vw_parent.city AS parent_city, vw_parent.phone1 AS parent_phone1, vw_parent.phone2 as parent_phone2, vw_parent.email AS parent_email,
+vw_parent.photo AS parent_photo
+FROM tb_user JOIN tb_student ON tb_user.user_id = tb_student.user_id JOIN vw_class ON tb_student.class_id = vw_class.class_id JOIN tb_student_category ON tb_student_category.student_category_id = tb_student.student_category_id JOIN tb_state ON tb_user.state_id = tb_state.id JOIN vw_parent ON tb_student.parent_id = vw_parent.parent_id
+
+
+
+
+CREATE VIEW vw_additional_details AS SELECT tb_user_additional_details.user_additional_detail_id AS user_additional_detail_id, tb_user_additional_details.school_id AS 
+school_id, tb_user_additional_details.user_id AS user_id, tb_user_additional_details.user_additional_field_id AS user_additional_field_id, tb_user_additional_details.value
+ AS value, tb_user_additional_field.name AS name, tb_user_additional_field.type AS type, tb_user_additional_field.required AS required, tb_user_additional_field.description AS description 
+ FROM tb_user_additional_details JOIN tb_user_additional_field ON tb_user_additional_details.user_additional_field_id = tb_user_additional_field.user_additional_field_id 
+
+
+
+CREATE VIEW vw_employee AS SELECT 
+    tb_user.user_id AS user_id, 
+    tb_user.firstname AS firstname,
+    tb_user.lastname AS lastname,
+    tb_user.othernames AS othernames,
+    tb_user.username AS username, 
+    tb_user.password AS password, 
+    tb_user.is_active AS is_active,
+	tb_user.school_id as school_id, 
+    tb_user.gender AS gender, 
+    tb_user.dob AS dob, 
+    tb_user.marital_status AS marital_status,
+	tb_user.state_id AS state_id, 
+    tb_user.address AS address,
+    tb_user.city AS city, 
+    tb_user.phone1 AS phone1,
+    tb_user.phone2 AS phone2,
+	tb_user.email AS email,
+    tb_user.photo AS photo,
+    tb_user.privilege_id AS privilege_id,
+    tb_user_privilege.name AS privilege, 
+    employee_id,
+    tb_employee.employee_department_id AS deparment_id,
+    tb_employee.employee_category_id AS category_id,
+    tb_employee.employee_position_id AS position_id, 
+	tb_employee.date_joined AS date_joined,
+    tb_employee.employee_number AS employee_number, 
+    tb_employee.employee_grade_level_id AS grade_level_id, 
+	tb_employee_department.name AS department, 
+    tb_employee_category.name AS category, 
+    tb_employee_position.name AS position, 
+    tb_employee_grade_level.name AS grade_level
+FROM tb_user 
+JOIN tb_user_privilege ON tb_user_privilege.user_privilege_id = tb_user.privilege_id 
+JOIN tb_employee ON tb_employee.user_id = tb_user.user_id 
+JOIN tb_employee_department ON tb_employee_department.employee_department_id = tb_employee.employee_department_id 
+JOIN tb_employee_category ON tb_employee_category.employee_category_id = tb_employee.employee_category_id 
+JOIN tb_employee_position ON tb_employee_position.employee_position_id = tb_employee.employee_position_id 
+JOIN tb_employee_grade_level ON tb_employee_grade_level.employee_grade_level_id = tb_employee.employee_grade_level_id 
+
+
+
+
+CREATE VIEW vw_class_basic_subject AS SELECT 
+tb_class_basic_subject.class_basic_subject_id AS class_basic_subject_id, 
+tb_class_basic_subject.school_id AS school_id, 
+tb_class_basic_subject.class_id AS class_id, 
+tb_class_basic_subject.employee_id AS employee_id,
+tb_class_basic_subject.subject_id AS subject_id, 
+tb_class.name AS class, 
+tb_class.code AS class_code, 
+tb_subject.name AS subject, 
+tb_subject.code AS subject_code, 
+CONCAT(vw_employee.firstname," ",vw_employee.lastname) AS teacher  
+FROM tb_class_basic_subject JOIN tb_class ON tb_class_basic_subject.class_id = tb_class.class_id 
+JOIN tb_subject ON tb_class_basic_subject.subject_id = tb_subject.subject_id  
+LEFT JOIN vw_employee ON tb_class_basic_subject.employee_id = vw_employee.employee_id
+
+
+
+CREATE VIEW vw_class_period AS SELECT 
+	tb_class_period.class_period_id,
+	tb_class_period.school_id,
+	tb_class_period.class_timing_set_id,
+	tb_class_period.name,
+	tb_class_period.start_time,
+	tb_class_period.end_time,
+	tb_class_period.is_break,
+	tb_class_timing_set.name AS class_timing_set
+FROM tb_class_period 
+JOIN tb_class_timing_set ON tb_class_timing_set.class_timing_set_id = tb_class_period.class_timing_set_id
+
+
+
+
+CREATE VIEW vw_weekday_class_period AS SELECT 
+	tb_weekday_class_period.weekday_class_period_id,
+	tb_weekday_class_period.school_id AS school_id,
+	tb_weekday_class_period.weekday_id AS weekday_id,
+	tb_weekday_class_period.class_timing_id AS class_timing_id,
+	tb_weekday_class_period.class_id AS class_id,
+	tb_weekday.name AS weekday,
+	tb_class_timing_set.name AS class_timing_set,
+	tb_class.name AS class
+FROM tb_weekday_class_period 
+	JOIN tb_weekday ON tb_weekday_class_period.weekday_id = tb_weekday.weekday_id 
+	JOIN tb_class_timing_set ON tb_class_timing_set.class_timing_set_id = tb_weekday_class_period.class_timing_id 
+	JOIN tb_class ON tb_weekday_class_period.class_id = tb_class.class_id
+
+
+
+CREATE VIEW vw_class_timetable AS SELECT 
+	tb_class_timetable.class_timetable_id,
+	tb_class_timetable.class_id AS class_id,
+	tb_class_timetable.school_id AS school_id,
+	tb_class_timetable.weekday_id AS weekday_id,
+	tb_class_timetable.class_period_id AS class_period_id,
+	tb_class_timetable.class_basic_subject_id AS class_basic_subject_id,
+	tb_weekday.name AS weekday,
+	tb_class_period.class_timing_set_id AS class_timing_set_id,
+	tb_class_period.name AS class_period,
+	tb_class_period.start_time AS start_time,
+	tb_class_period.end_time AS end_time,
+	tb_class_period.is_break AS is_break,
+	vw_class_basic_subject.subject_id AS subject_id,
+	vw_class_basic_subject.subject AS subject,
+	vw_class_basic_subject.teacher AS teacher
+FROM tb_class_timetable 
+JOIN tb_weekday ON tb_class_timetable.weekday_id = tb_weekday.weekday_id 
+JOIN tb_class_period ON tb_class_timetable.class_period_id = tb_class_period.class_period_id 
+JOIN vw_class_basic_subject ON tb_class_timetable.class_basic_subject_id = vw_class_basic_subject.class_basic_subject_id
+
+
+
+
+CREATE VIEW vw_user_privilege_module AS SELECT 
+	tb_user_privilege_module.user_privilege_module_id,
+	tb_user_privilege_module.user_privilege_id,
+	tb_user_privilege_module.module_id,
+	tb_user_privilege_module.school_id,
+	tb_user_privilege_module.create,
+	tb_user_privilege_module.update,
+	tb_user_privilege_module.delete,
+	tb_user_privilege_module.view,
+	tb_user_privilege_module.print,
+        tb_user_privilege_module.check_all,
+	tb_user_privilege.name AS privilege,
+	tb_module.name AS module,
+        tb_module.has_child,
+        tb_module.parent_id
+FROM tb_user_privilege_module 
+JOIN tb_user_privilege ON tb_user_privilege.user_privilege_id = tb_user_privilege_module.user_privilege_id 
+JOIN tb_module ON tb_module.module_id = tb_user_privilege_module.module_id
